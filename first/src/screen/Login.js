@@ -4,6 +4,7 @@ import { Formik, ErrorMessage } from 'formik'
 import * as yup from 'yup'
 import ErrorMessageComponent from '../components/ErrorMessageComponent'
 import baseService from '../services/service/baseService'
+import { ActivityIndicator } from 'react-native-paper'
 
 const loginSchema = yup.object().shape({
   username: yup.string().required('Username is Required!'),
@@ -11,12 +12,19 @@ const loginSchema = yup.object().shape({
 })
 
 
-const Login = ({navigation}) => {
+const Login = ({ navigation }) => {
 
-  const handleLogin = (values) => {
-    baseService.post('/auth/login', values).then(res => {
+  const [loading, setLoading] = useState(false)
+
+  const handleLogin = async(values) => {
+    setLoading(true)
+    await baseService.post('/auth/login', values).then(res => {
       navigation.navigate('Home')
-    })
+    }).catch(
+      console.log('error')
+    ).finally(
+      setLoading(false)
+    )
   }
 
   return (
@@ -46,7 +54,10 @@ const Login = ({navigation}) => {
               secureTextEntry={true} />
             <ErrorMessageComponent name={"password"} />
             <View style={styles.button} >
-              <Button title='Login' color="crimson" onPress={handleSubmit} />
+              {loading ?
+                <ActivityIndicator color='white' /> :
+                <Button title='Login' color="crimson" onPress={handleSubmit} />
+              }
             </View>
           </>
 

@@ -6,6 +6,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import Home from './src/screen/home/Home'
 import { Provider } from 'react-redux'
 import store from './src/store/store'
+import ProductDetails from './src/screen/productDetails/ProductDetails'
+import Card from './src/screen/card/Card'
 
 
 const Stack = createNativeStackNavigator()
@@ -15,8 +17,12 @@ const App = () => {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name='Login' component={Login} />
-          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name='Login' component={Login}  />
+          <Stack.Screen name="Home" component={Home} options={{
+            headerShown: false
+        }} />
+          <Stack.Screen name="ProdoctDetails" component={ProductDetails} />
+          <Stack.Screen name="Card" component={Card} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

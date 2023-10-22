@@ -4,7 +4,7 @@ import { Avatar, Button, Card, Text } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import { addToCard } from '../store/features/cardSlice';
 
-const ProductComponent = ({ item }) => {
+const ProductComponent = ({ item, onPress }) => {
 
   const dispatch = useDispatch()
 
@@ -17,6 +17,7 @@ const ProductComponent = ({ item }) => {
       <Card.Cover style={styles.image} source={{ uri: item.thumbnail }} />
       <Card.Actions>
         <Button onPress={() => dispatch(addToCard(item))}>Add to Card</Button>
+        <Button onPress={onPress}>Details</Button>
       </Card.Actions>
     </Card>
   )

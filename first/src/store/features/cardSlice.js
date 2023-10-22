@@ -11,7 +11,22 @@ export const cardSlice = createSlice({
   reducers:{
     addToCard : (state,action) => {
       state.number += 1
-      products.push(action.payload)
+      //state.products.push(action.payload)
+      let index = -1
+      state.products.map((item, key) => {
+        if(item.id  === action.payload.id){
+          index = key
+        }
+      })
+      if(index === -1){
+        state.products.push(action.payload)
+      }else{
+        if(state.products[index]['quantity']){
+          state.products[index]['quantity'] += 1
+        }else{
+          state.products[index]['quantity'] = 2
+        }
+      }
     }
   }
 })
