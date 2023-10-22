@@ -3,9 +3,7 @@ import React, { useState } from 'react'
 import { Formik, ErrorMessage } from 'formik'
 import * as yup from 'yup'
 import ErrorMessageComponent from '../components/ErrorMessageComponent'
-import axios from 'axios'
-
-
+import baseService from '../services/service/baseService'
 
 const loginSchema = yup.object().shape({
   username: yup.string().required('Username is Required!'),
@@ -13,17 +11,19 @@ const loginSchema = yup.object().shape({
 })
 
 
-const Login = () => {
+const Login = ({navigation}) => {
 
   const handleLogin = (values) => {
-    
+    baseService.post('/auth/login', values).then(res => {
+      navigation.navigate('Home')
+    })
   }
 
   return (
     <View style={styles.container}>
       <Text style={styles.headerText}>Giriş Yap</Text>
       <Formik
-        initialValues={{ username: "", password: "" }}
+        initialValues={{ username: "kminchelle", password: "0lelplR" }}
         onSubmit={values => handleLogin(values)}
         validationSchema={loginSchema}
       >
