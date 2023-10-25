@@ -29,7 +29,7 @@ const Login = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.headerText}>Giriş Yap</Text>
+      <Text style={styles.headerText}>Giriş</Text>
       <Formik
         initialValues={{ username: "kminchelle", password: "0lelplR" }}
         onSubmit={values => handleLogin(values)}
