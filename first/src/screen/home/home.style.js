@@ -3,7 +3,8 @@ import { StyleSheet } from "react-native";
 export default styles = StyleSheet.create({
   buttonContainer:{
     display: 'flex',
-    alignItems: 'flex-end'
+    //alignItems: 'flex-end',
+    flexDirection: 'row'
   },
   cardButton:{
     width: 100,

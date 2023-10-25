@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Login from './src/screen/Login'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
@@ -10,17 +10,20 @@ import ProductDetails from './src/screen/productDetails/ProductDetails'
 import Card from './src/screen/card/Card'
 
 
+
 const Stack = createNativeStackNavigator()
 
 const App = () => {
+
+
   return (
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name='Login' component={Login}  />
+          <Stack.Screen name='Login' component={Login} />
           <Stack.Screen name="Home" component={Home} options={{
             headerShown: false
-        }} />
+          }} />
           <Stack.Screen name="ProdoctDetails" component={ProductDetails} />
           <Stack.Screen name="Card" component={Card} />
         </Stack.Navigator>

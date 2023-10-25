@@ -4,11 +4,14 @@ import styles from './home.style'
 import baseService from '../../services/service/baseService'
 import ProductComponent from '../../components/ProductComponent'
 import { Button } from 'react-native-paper'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { getCategory } from '../../store/features/categorySlice'
+import CategoriesComponent from '../../components/CategoriesComponent'
 
 const Home = ({ navigation }) => {
 
   const card = useSelector(state => state.card.number)
+  const dispatch = useDispatch()
 
   const [products, setProducts] = useState([])
 
@@ -18,8 +21,9 @@ const Home = ({ navigation }) => {
 
 
 
-  const getData = () => {
-    baseService.get('/products').then(res => setProducts(res.products))
+  const getData = async() => {
+    await baseService.get('/products').then(res => setProducts(res.products))
+    dispatch(getCategory())
   }
 
   const goToDetails = (item) => {
@@ -39,6 +43,7 @@ const Home = ({ navigation }) => {
             <Button mode="contained" style={styles.cardButton} onPress={() => navigation.navigate('Card')}>
               {card === 0 ? 'Card' : card}
             </Button>
+            <CategoriesComponent />
           </View>}
       />
     </View>

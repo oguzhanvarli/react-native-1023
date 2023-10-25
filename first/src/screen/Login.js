@@ -1,10 +1,14 @@
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Formik, ErrorMessage } from 'formik'
 import * as yup from 'yup'
 import ErrorMessageComponent from '../components/ErrorMessageComponent'
 import baseService from '../services/service/baseService'
 import { ActivityIndicator } from 'react-native-paper'
+import { useDispatch } from 'react-redux'
+import { login } from '../store/features/userSlice'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import jwtDecode from 'jwt-decode'
 
 const loginSchema = yup.object().shape({
   username: yup.string().required('Username is Required!'),
@@ -15,16 +19,35 @@ const loginSchema = yup.object().shape({
 const Login = ({ navigation }) => {
 
   const [loading, setLoading] = useState(false)
+  const dispatch = useDispatch()
 
   const handleLogin = async(values) => {
     setLoading(true)
     await baseService.post('/auth/login', values).then(res => {
+      dispatch(login(res))
+      AsyncStorage.setItem('token', res.token)
       navigation.navigate('Home')
     }).catch(
       console.log('error')
     ).finally(
       setLoading(false)
     )
+  }
+
+  useEffect(() => {
+    handleToken()
+  }, [])
+
+  const handleToken = async () => {
+    let token = await AsyncStorage.getItem('token')
+    if (token) {
+      const d = new Date()
+      let time = d.getTime() / 1000
+      let decodedToken = jwtDecode(token)
+      if(decodedToken.exp > time){
+        navigation.navigate('Home')
+      }
+    }
   }
 
   return (
